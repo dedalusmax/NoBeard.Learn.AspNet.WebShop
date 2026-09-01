@@ -8,8 +8,6 @@ public class Order
     [Key]
     public int Id { get; set; }
 
-    // TODO: add user reference here
-
     [Required]
     [Column(TypeName = "decimal(9,2)")]
     public decimal Total { get; set; }
