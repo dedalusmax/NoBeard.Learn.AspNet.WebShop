@@ -60,6 +60,10 @@ public class IndexModel : PageModel
         [Phone]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
+
+        [Display(Name = "Full address")]
+        public string? Address { get; set; }
+
     }
 
     private async Task LoadAsync(ApplicationUser user)
