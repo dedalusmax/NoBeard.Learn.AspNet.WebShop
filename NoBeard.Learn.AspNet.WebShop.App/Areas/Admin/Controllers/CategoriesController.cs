@@ -51,8 +51,10 @@ public class CategoriesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Name,Products")] Category category)
+    public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
     {
+        ModelState.Remove("Products");
+
         if (ModelState.IsValid)
         {
             _context.Add(category);
@@ -89,6 +91,8 @@ public class CategoriesController : Controller
         {
             return NotFound();
         }
+
+        ModelState.Remove("Products");
 
         if (ModelState.IsValid)
         {
