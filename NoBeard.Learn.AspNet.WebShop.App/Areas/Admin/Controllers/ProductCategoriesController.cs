@@ -1,8 +1,10 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using NoBeard.Learn.AspNet.WebShop.App.Models;
 using NoBeard.Learn.AspNet.WebShop.App.Data;
+using NoBeard.Learn.AspNet.WebShop.App.Models;
 
 namespace NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Controllers;
 
@@ -19,15 +21,28 @@ public class ProductCategoriesController : Controller
     // GET: PRODUCTCATEGORYS
     public async Task<IActionResult> Index(int productId)    
     {
+        // ArgumentNullException.ThrowIfNull(productId, nameof(productId));
+
+        if (productId == 0)
+        {
+            return NotFound();
+        }   
+
         var results = _context.ProductCategories
+            .Include(p => p.Product)
+            .Include(c => c.Category)
             .Where(_ => _.ProductId == productId)
             .ToList();
+
+        //return new StatusCodeResult(555);
+
+        ViewBag.ProductId = productId;
 
         return View(results);
     }
 
     // GET: PRODUCTCATEGORYS/Details/5
-    public async Task<IActionResult> Details(int? id)
+    public async Task<IActionResult> Details(int? id, int productId)
     {
         if (id == null)
         {
@@ -41,12 +56,19 @@ public class ProductCategoriesController : Controller
             return NotFound();
         }
 
+        ViewBag.ProductId = productId;
+
         return View(productcategory);
     }
 
     // GET: PRODUCTCATEGORYS/Create
-    public IActionResult Create()
+    public IActionResult Create(int productId)
     {
+        ViewBag.ProductId = productId;
+
+        ViewData["Categories"] = new SelectList(_context.Categories, "Id", "Name");
+        ViewData["Products"] = new SelectList(_context.Products.Where(p => p.Id == productId), "Id", "Name");
+
         return View();
     }
 
@@ -64,13 +86,15 @@ public class ProductCategoriesController : Controller
         {
             _context.Add(productcategory);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { productId = productcategory.ProductId });
         }
+
         return View(productcategory);
     }
 
     // GET: PRODUCTCATEGORYS/Edit/5
-    public async Task<IActionResult> Edit(int? id)
+    public async Task<IActionResult> Edit(int? id, int productId)
     {
         if (id == null)
         {
@@ -82,6 +106,15 @@ public class ProductCategoriesController : Controller
         {
             return NotFound();
         }
+
+        ViewBag.ProductId = productId;
+
+        var categories = _context.Categories.ToList();
+        var products = _context.Products.Where(p => p.Id == productId).ToList();
+
+        ViewData["Categories"] = new SelectList(categories, "Id", "Name");
+        ViewData["Products"] = new SelectList(products, "Id", "Name");
+
         return View(productcategory);
     }
 
@@ -124,7 +157,7 @@ public class ProductCategoriesController : Controller
     }
 
     // GET: PRODUCTCATEGORYS/Delete/5
-    public async Task<IActionResult> Delete(int? id)
+    public async Task<IActionResult> Delete(int? id, int productId)
     {
         if (id == null)
         {
@@ -133,10 +166,13 @@ public class ProductCategoriesController : Controller
 
         var productcategory = await _context.ProductCategories
             .FirstOrDefaultAsync(m => m.Id == id);
+
         if (productcategory == null)
         {
             return NotFound();
         }
+
+        ViewBag.ProductId = productId;
 
         return View(productcategory);
     }
