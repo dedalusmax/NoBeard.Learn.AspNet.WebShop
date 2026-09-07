@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NoBeard.Learn.AspNet.WebShop.App.Models;
@@ -17,9 +18,13 @@ public class Product
     public decimal Price { get; set; }
 
     public string? Description { get; set; }
-    
+
     public required virtual ICollection<ProductCategory> Categories { get; set; }
 
     [ForeignKey("ProductId")]
     public required virtual ICollection<OrderItem> OrderItems { get; set; }
+
+    [NotMapped, DisplayName("Categories")]
+    public string CategoriesDisplay =>
+        Categories != null ? string.Join(", ", Categories.Select(c => c.Category.Name)) : string.Empty;
 }

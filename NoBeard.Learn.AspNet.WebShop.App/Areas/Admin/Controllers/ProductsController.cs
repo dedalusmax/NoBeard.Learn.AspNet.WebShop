@@ -19,7 +19,12 @@ public class ProductsController : Controller
     // GET: PRODUCTS
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Products.ToListAsync());
+        var result = _context.Products
+            .Include(p => p.Categories)
+            .ThenInclude(pc => pc.Category)
+            .ToList();
+            
+        return View(result);
     }
 
     // GET: PRODUCTS/Details/5
