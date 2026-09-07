@@ -14,18 +14,18 @@
             @Html.DisplayNameFor(model => model.ProductId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductId)
+            @Html.DisplayFor(model => model.Product.Name)
         </dd>
     </dl>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CategoryId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategoryId)
+            @Html.DisplayFor(model => model.Category.Name)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" asp-route-productId="@ViewBag.ProductId">Edit</a> |
+    <a asp-action="Index" asp-route-productId="@ViewBag.ProductId">Back to List</a>
 </div>

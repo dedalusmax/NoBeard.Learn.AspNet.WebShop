@@ -49,16 +49,19 @@ public class ProductCategoriesController : Controller
             return NotFound();
         }
 
-        var productcategory = await _context.ProductCategories
+        var productCategory = await _context.ProductCategories
+            .Include(p => p.Category)
+            .Include(c => c.Product)
             .FirstOrDefaultAsync(m => m.Id == id);
-        if (productcategory == null)
+
+        if (productCategory == null)
         {
             return NotFound();
         }
 
         ViewBag.ProductId = productId;
 
-        return View(productcategory);
+        return View(productCategory);
     }
 
     // GET: PRODUCTCATEGORYS/Create
@@ -77,20 +80,23 @@ public class ProductCategoriesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,ProductId,Product,CategoryId,Category")] ProductCategory productcategory)
+    public async Task<IActionResult> Create([Bind("Id,ProductId,Product,CategoryId,Category")] ProductCategory productCategory)
     {
         ModelState.Remove("Product");
         ModelState.Remove("Category");
 
         if (ModelState.IsValid)
         {
-            _context.Add(productcategory);
+            _context.Add(productCategory);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index), new { productId = productcategory.ProductId });
+            return RedirectToAction(nameof(Index), new { productId = productCategory.ProductId });
         }
 
-        return View(productcategory);
+        ViewData["Categories"] = new SelectList(_context.Categories, "Id", "Name", productCategory.CategoryId);
+        ViewData["Products"] = new SelectList(_context.Products, "Id", "Name", productCategory.ProductId);
+
+        return View(productCategory);
     }
 
     // GET: PRODUCTCATEGORYS/Edit/5
@@ -101,8 +107,8 @@ public class ProductCategoriesController : Controller
             return NotFound();
         }
 
-        var productcategory = await _context.ProductCategories.FindAsync(id);
-        if (productcategory == null)
+        var productCategory = await _context.ProductCategories.FindAsync(id);
+        if (productCategory == null)
         {
             return NotFound();
         }
@@ -112,10 +118,10 @@ public class ProductCategoriesController : Controller
         var categories = _context.Categories.ToList();
         var products = _context.Products.Where(p => p.Id == productId).ToList();
 
-        ViewData["Categories"] = new SelectList(categories, "Id", "Name");
-        ViewData["Products"] = new SelectList(products, "Id", "Name");
+        ViewData["Categories"] = new SelectList(categories, "Id", "Name", productCategory.CategoryId);
+        ViewData["Products"] = new SelectList(products, "Id", "Name", productCategory.ProductId);
 
-        return View(productcategory);
+        return View(productCategory);
     }
 
     // POST: PRODUCTCATEGORYS/Edit/5
@@ -123,9 +129,9 @@ public class ProductCategoriesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,ProductId,Product,CategoryId,Category")] ProductCategory productcategory)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,ProductId,Product,CategoryId,Category")] ProductCategory productCategory)
     {
-        if (id != productcategory.Id)
+        if (id != productCategory.Id)
         {
             return NotFound();
         }
@@ -137,12 +143,12 @@ public class ProductCategoriesController : Controller
         {
             try
             {
-                _context.Update(productcategory);
+                _context.Update(productCategory);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductCategoryExists(productcategory.Id))
+                if (!ProductCategoryExists(productCategory.Id))
                 {
                     return NotFound();
                 }
@@ -151,9 +157,13 @@ public class ProductCategoriesController : Controller
                     throw;
                 }
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { productId = productCategory.ProductId });
         }
-        return View(productcategory);
+
+        ViewData["Categories"] = new SelectList(_context.Categories, "Id", "Name", productCategory.CategoryId);
+        ViewData["Products"] = new SelectList(_context.Products, "Id", "Name", productCategory.ProductId);
+
+        return View(productCategory);
     }
 
     // GET: PRODUCTCATEGORYS/Delete/5
@@ -164,32 +174,37 @@ public class ProductCategoriesController : Controller
             return NotFound();
         }
 
-        var productcategory = await _context.ProductCategories
+        var productCategory = await _context.ProductCategories
+            .Include(p => p.Category)
+            .Include(p => p.Product)
             .FirstOrDefaultAsync(m => m.Id == id);
 
-        if (productcategory == null)
+        if (productCategory == null)
         {
             return NotFound();
         }
 
         ViewBag.ProductId = productId;
 
-        return View(productcategory);
+        return View(productCategory);
     }
 
     // POST: PRODUCTCATEGORYS/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int? id)
+    public async Task<IActionResult> DeleteConfirmed(int? id, int productId)
     {
-        var productcategory = await _context.ProductCategories.FindAsync(id);
-        if (productcategory != null)
+        var productCategory = await _context.ProductCategories.FindAsync(id);
+        if (productCategory != null)
         {
-            _context.ProductCategories.Remove(productcategory);
+            _context.ProductCategories.Remove(productCategory);
         }
 
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+
+        ViewBag.ProductId = productId;
+
+        return RedirectToAction(nameof(Index), new { productId });
     }
 
     private bool ProductCategoryExists(int? id)

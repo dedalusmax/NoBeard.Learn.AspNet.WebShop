@@ -6,7 +6,8 @@
 
 <h1>Edit</h1>
 
-<h4>ProductCategory</h4>
+<h4>Product Category</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,12 +16,12 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="ProductId" class="control-label"></label>
-                <input asp-for="ProductId" class="form-control" />
+                <select asp-for="ProductId" class="form-control" asp-items="ViewBag.Products"></select>
                 <span asp-validation-for="ProductId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
                 <span asp-validation-for="CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,7 +32,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-productId="@ViewBag.ProductId">Back to List</a>
 </div>
 
 @section Scripts {
