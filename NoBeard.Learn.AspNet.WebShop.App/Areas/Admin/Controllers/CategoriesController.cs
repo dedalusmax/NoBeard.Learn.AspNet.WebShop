@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class CategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;

@@ -10,7 +10,7 @@ using NoBeard.Learn.AspNet.WebShop.App.Models;
 namespace NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class ProductCategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;
