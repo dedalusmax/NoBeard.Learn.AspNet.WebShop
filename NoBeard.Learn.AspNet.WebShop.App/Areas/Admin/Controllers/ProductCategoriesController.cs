@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
@@ -9,6 +10,7 @@ using NoBeard.Learn.AspNet.WebShop.App.Models;
 namespace NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize]
 public class ProductCategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;

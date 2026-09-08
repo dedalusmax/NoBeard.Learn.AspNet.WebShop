@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NoBeard.Learn.AspNet.WebShop.App.Models;
 using NoBeard.Learn.AspNet.WebShop.App.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize]
 public class CategoriesController : Controller
 {
     private readonly ApplicationDbContext _context;

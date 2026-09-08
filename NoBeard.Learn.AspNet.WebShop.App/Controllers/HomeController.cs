@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NoBeard.Learn.AspNet.WebShop.App.Models;
 using System.Diagnostics;
@@ -11,6 +12,7 @@ namespace NoBeard.Learn.AspNet.WebShop.App.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

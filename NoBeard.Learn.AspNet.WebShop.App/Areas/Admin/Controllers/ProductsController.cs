@@ -1,12 +1,14 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NoBeard.Learn.AspNet.WebShop.App.Models;
 using NoBeard.Learn.AspNet.WebShop.App.Data;
+using NoBeard.Learn.AspNet.WebShop.App.Models;
 
 namespace NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize]
 public class ProductsController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -17,6 +19,7 @@ public class ProductsController : Controller
     }
 
     // GET: PRODUCTS
+    [AllowAnonymous]
     public async Task<IActionResult> Index()    
     {
         var result = _context.Products
