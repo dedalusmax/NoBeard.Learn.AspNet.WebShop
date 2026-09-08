@@ -1,8 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
+@* @using Microsoft.AspNetCore.Authorization
+ *@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
+@* @inject IAuthorizationService AuthService
+ *@
+@* @if ((await AuthService.AuthorizeAsync(User, "RequireAdminRole")).Succeeded)
+{
+    <p>User @User.Identity.Name is an admin.</p>
+}
+ *@
 @if (SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(UserManager.GetUserAsync(User).Result, "Admin"))
 {
     <li class="nav-item">

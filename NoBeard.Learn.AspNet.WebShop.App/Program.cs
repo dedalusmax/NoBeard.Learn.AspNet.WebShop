@@ -21,7 +21,14 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("RequireAdminRole", policy => policy
+        .RequireAuthenticatedUser()
+        .RequireRole("Admin")
+    // Add more requirements for the policy if needed
+    );
+});
 
 builder.Services.AddControllersWithViews();
 
