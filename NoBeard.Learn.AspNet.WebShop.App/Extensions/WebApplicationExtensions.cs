@@ -23,6 +23,8 @@ public static class WebApplicationExtensions
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseSession();
+
         app.MapStaticAssets();
 
         // Map controller routes for areas always before the default route, otherwise the area routes will never be hit.

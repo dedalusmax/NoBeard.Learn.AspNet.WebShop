@@ -10,6 +10,16 @@ public static class IServiceCollectionExtensions
     public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Add services to the container.
+
+        services.AddDistributedMemoryCache();
+
+        services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromMinutes(1);
+            options.Cookie.IsEssential = true;
+            options.Cookie.Name = ".Algebra.WebShop.Session";
+        });
+
         var connectionString = configuration.GetConnectionString("DefaultConnection") 
             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
