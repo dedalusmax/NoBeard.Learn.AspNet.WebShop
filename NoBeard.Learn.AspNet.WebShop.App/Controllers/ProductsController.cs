@@ -6,12 +6,26 @@ namespace NoBeard.Learn.AspNet.WebShop.App.Controllers;
 
 public class ProductsController(ApplicationDbContext context) : Controller
 {
-    public IActionResult Index()
+    public IActionResult Index(int? categoryId)
     {
         ViewData["Categories"] = new SelectList(context.Categories, "Id", "Name");
 
-        var products = context.Products.ToList();
+        if (categoryId != null)
+        {
+            var products = (
+                from p in context.Products
+                join pc in context.ProductCategories on p.Id equals pc.ProductId
+                where pc.CategoryId == categoryId
+                select p
+                ).ToList();
 
-        return View(products);
+            return View(products);
+        }
+        else
+        {
+            var products = context.Products.ToList();
+
+            return View(products);
+        }
     }
 }

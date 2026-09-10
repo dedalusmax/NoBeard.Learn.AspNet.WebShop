@@ -15,7 +15,7 @@
             <ul class="dropdown-menu">
                 @foreach (var category in ViewBag.Categories)
                 {
-                    <li><a class="dropdown-item" href="#">@category.Text</a></li>
+                    <li><a class="dropdown-item" asp-action="Index" asp-route-categoryId="@category.Value">@category.Text</a></li>
                 }
             </ul>
         </div>
