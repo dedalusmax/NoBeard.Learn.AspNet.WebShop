@@ -36,7 +36,10 @@
                     <hr/>
                     <label>Price:</label>
                     <p class="card-text">@item.Price.ToString("C")</p>
-                    <a class="btn btn-success">Add to cart</a>
+                    <form asp-controller="Cart" asp-action="AddToCart" method="POST">
+                        <input type="hidden" name="productId" asp-for="@item.Id" />
+                        <input type="submit" value="Add to cart" class="btn btn-success" />
+                    </form>
                 </div>
             </div>
         </div>

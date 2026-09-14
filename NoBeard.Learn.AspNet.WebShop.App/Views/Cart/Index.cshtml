@@ -1,0 +1,52 @@
+﻿@model Cart
+
+@{
+    ViewData["Title"] = "Cart";
+}
+
+@if (Model.Items.Count == 0)
+{
+    <div class="text-center">
+        <h1 class="display-4">Your cart is empty!</h1>
+        <a class="btn btn-primary btn-lg" asp-controller="Products" asp-action="Index">Continue shopping</a>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Cart items</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            <input type="button" class="btn btn-sm btn-danger" value="Remove" />
+                        </td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Product.Price.ToString("C")</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Total.ToString("C")</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                    <td>@Model.GrandTotal.ToString("C")</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr />
+        <a class="btn btn-primary btn-lg float-start" asp-controller="Products" asp-action="Index">Continue shopping</a>
+        <a class="btn btn-success btn-lg float-end">Order products</a>
+    </div>
+}
