@@ -30,7 +30,10 @@ else
                 {
                     <tr>
                         <td>
-                            <input type="button" class="btn btn-sm btn-danger" value="Remove" />
+                            <form asp-action="RemoveFromCart" method="POST">
+                                <input type="hidden" name="productId" asp-for="@item.Product.Id" />
+                                <input type="submit" value="Remove" class="btn btn-sm btn-danger" />
+                            </form>
                         </td>
                         <td>@item.Product.Name</td>
                         <td>@item.Product.Price.ToString("C")</td>
