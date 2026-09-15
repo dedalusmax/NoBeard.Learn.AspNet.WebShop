@@ -25,4 +25,9 @@ public static class ISessionExtensions
             return JsonConvert.DeserializeObject<Cart>(sessionData)!;
         }
     }
+
+    public static void ClearCart(this ISession session)
+    {
+        session.Remove(CART_SESSION_KEY);
+    }
 }

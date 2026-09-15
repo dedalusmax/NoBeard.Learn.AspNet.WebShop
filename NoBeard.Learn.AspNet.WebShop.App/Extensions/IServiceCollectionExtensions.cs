@@ -15,7 +15,7 @@ public static class IServiceCollectionExtensions
 
         services.AddSession(options =>
         {
-            options.IdleTimeout = TimeSpan.FromMinutes(1);
+            options.IdleTimeout = TimeSpan.FromMinutes(30);
             options.Cookie.IsEssential = true;
             options.Cookie.Name = ".Algebra.WebShop.Session";
         });
