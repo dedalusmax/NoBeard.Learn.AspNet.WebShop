@@ -1,0 +1,38 @@
+﻿@model Cart
+
+<div class="text-center">
+        <h3>Cart items</h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        <form asp-action="RemoveFromCart" method="POST">
+                            <input type="hidden" name="productId" value="@item.Product.Id" />
+                            <input type="submit" value="Remove" class="btn btn-sm btn-danger" />
+                        </form>
+                    </td>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Product.Price.ToString("C")</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Total.ToString("C")</td>
+                </tr>
+            }
+            <tr>
+                <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                <td>@Model.GrandTotal.ToString("C")</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

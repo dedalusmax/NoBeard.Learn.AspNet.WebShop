@@ -14,39 +14,12 @@
 else
 {
     <div class="text-center">
-        <h1 class="display-4">Cart items</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td>
-                            <form asp-action="RemoveFromCart" method="POST">
-                                <input type="hidden" name="productId" asp-for="@item.Product.Id" />
-                                <input type="submit" value="Remove" class="btn btn-sm btn-danger" />
-                            </form>
-                        </td>
-                        <td>@item.Product.Name</td>
-                        <td>@item.Product.Price.ToString("C")</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Total.ToString("C")</td>
-                    </tr>
-                }
-                <tr>
-                    <td colspan="4" class="text-right"><strong>Total:</strong></td>
-                    <td>@Model.GrandTotal.ToString("C")</td>
-                </tr>
-            </tbody>
-        </table>
+        <h1 class="display-4">Cart</h1>
+        
+        @* @await Component.InvokeAsync("ShoppingCart", new { cart = Model }) *@
+        @* @await Component.InvokeAsync("ShoppingCart") *@
+
+        <vc:shopping-cart />
 
         <hr />
         <a class="btn btn-primary btn-lg float-start" asp-controller="Products" asp-action="Index">Continue shopping</a>
