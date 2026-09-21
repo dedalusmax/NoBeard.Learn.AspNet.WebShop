@@ -4,7 +4,7 @@ using NoBeard.Learn.AspNet.WebShop.App.Data;
 
 namespace NoBeard.Learn.AspNet.WebShop.App.Controllers;
 
-public class ProductsController(ApplicationDbContext context) : Controller
+public class ProductsController(ApplicationDbContext context) : BaseController(context)
 {
     public IActionResult Index(int? categoryId)
     {

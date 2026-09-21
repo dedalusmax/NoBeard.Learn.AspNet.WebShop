@@ -7,7 +7,7 @@ using NoBeard.Learn.AspNet.WebShop.App.Models;
 namespace NoBeard.Learn.AspNet.WebShop.App.Controllers;
 
 [Authorize]
-public class CartController(ApplicationDbContext context) : Controller
+public class CartController(ApplicationDbContext context) : BaseController(context)
 {
     public IActionResult Index()
     {
