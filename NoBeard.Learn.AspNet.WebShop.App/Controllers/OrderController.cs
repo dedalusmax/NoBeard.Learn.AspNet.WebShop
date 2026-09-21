@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NoBeard.Learn.AspNet.WebShop.App.Data;
 using NoBeard.Learn.AspNet.WebShop.App.Extensions;
 using NoBeard.Learn.AspNet.WebShop.App.Models;
@@ -61,6 +62,7 @@ public class OrderController(ApplicationDbContext context) : BaseController(cont
                 order.UserId = GetUser()!.Id;
 
                 context.Orders.Add(order);
+
                 context.SaveChanges();
 
                 if (cart.Items.Count > 0)

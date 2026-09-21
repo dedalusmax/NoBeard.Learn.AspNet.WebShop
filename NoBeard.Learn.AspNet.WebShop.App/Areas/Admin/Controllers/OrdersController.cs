@@ -26,12 +26,31 @@ public class OrdersController(ApplicationDbContext context) : Controller
             return NotFound();
         }
 
-        var order = await _context.Orders
+        var order = await _context.Orders // TODO: message fali!
+            //.Include(_ => _.User)
+            .AsNoTracking()
             .FirstOrDefaultAsync(m => m.Id == id);
+
         if (order == null)
         {
             return NotFound();
         }
+
+        order.Items = (
+            from items in _context.OrderItems
+            join products in _context.Products on items.ProductId equals products.Id
+            where items.OrderId == id
+            select new OrderItem
+            {
+                Id = items.Id,
+                OrderId = items.OrderId,
+                ProductId = items.ProductId,
+                Quantity = items.Quantity,
+                Total = items.Total,
+                ProductName = products.Name
+            }
+        )
+        .ToList();
 
         return View(order);
     }
