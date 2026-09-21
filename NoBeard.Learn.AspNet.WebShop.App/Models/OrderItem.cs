@@ -23,4 +23,7 @@ public class OrderItem
     [Required]
     [Column(TypeName = "decimal(9,2)")]
     public decimal Total { get; set; }
+
+    [NotMapped]
+    public string ProductName { get; set; }
 }

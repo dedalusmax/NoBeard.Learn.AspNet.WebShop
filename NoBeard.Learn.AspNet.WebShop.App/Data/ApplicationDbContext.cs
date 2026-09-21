@@ -30,6 +30,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasIndex(_ => new { _.OrderId, _.ProductId } )
             .IsUnique();
 
+        //builder.Entity<Order>
+        //    .HasMany(_ => _.Items)
+        //    .WithOne(_ => _.Order)
+        //    .HasForeignKey(_ => _.OrderId)
+        //    .OnDelete(DeleteBehavior.Cascade);
+
         base.OnModelCreating(builder);
     }
 }

@@ -11,9 +11,11 @@ public class Order
 
     [Required]
     [Column(TypeName = "decimal(9,2)")]
+    [DisplayName("Total Amount")]
     public decimal Total { get; set; }
 
     [Required]
+    [DisplayName("Created on"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime DateTimeCreated { get; set; }
 
     #region Personal Information
@@ -46,6 +48,11 @@ public class Order
     public string CustomerAddress { get; set; }
 
     #endregion
+
+    [Required]
+    public string UserId { get; set; }
+
+    public virtual ApplicationUser User { get; set; }
 
     [ForeignKey("OrderId")]
     public virtual ICollection<OrderItem> Items { get; set; } 
