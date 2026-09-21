@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +8,9 @@ namespace NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Roles = "Admin")]
-public class OrdersController : Controller
+public class OrdersController(ApplicationDbContext context) : Controller
 {
-    private readonly ApplicationDbContext _context;
-
-    public OrdersController(ApplicationDbContext context)
-    {
-        _context = context;
-    }
+    private readonly ApplicationDbContext _context = context;
 
     // GET: ORDERS
     public async Task<IActionResult> Index()    
@@ -39,28 +33,6 @@ public class OrdersController : Controller
             return NotFound();
         }
 
-        return View(order);
-    }
-
-    // GET: ORDERS/Create
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    // POST: ORDERS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Total,Items")] Order order)
-    {
-        if (ModelState.IsValid)
-        {
-            _context.Add(order);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
         return View(order);
     }
 
