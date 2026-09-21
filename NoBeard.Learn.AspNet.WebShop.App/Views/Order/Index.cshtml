@@ -11,59 +11,67 @@
     </div>
 }   
 
-<div class="text-center mb-3">
-    <h1 class="display-4">Place your order</h1>
-</div>
-<hr />
-<div class="container">
-    <div class="row mt-3">
-        <vc:shopping-cart />
+@if (ViewBag.Cart.Items.Count == 0)
+{
+    <h3 class="display-4">Your cart is empty!</h3>
+    <a class="btn btn-secondary float-start" asp-controller="Products" asp-action="Index">Continue shopping</a>
+}
+else
+{
+    <div class="text-center mb-3">
+        <h1 class="display-4">Place your order</h1>
     </div>
-    <div class="row mt-3">
-        <div class="text-center">
-            <h3>Personal information</h3>
+    <hr />
+    <div class="container">
+        <div class="row mt-3">
+            <vc:shopping-cart />
         </div>
-        <form asp-action="Create" method="POST">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row mt-3">
+            <div class="text-center">
+                <h3>Personal information</h3>
+            </div>
+            <form asp-action="Create" method="POST">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="row">
-                <div class="col form-group">
-                    <label asp-for="CustomerFirstName" class="control-label"></label>
-                    <input asp-for="CustomerFirstName" class="form-control" />
-                    <span asp-validation-for="CustomerFirstName" class="text-danger"></span>
+                <div class="row">
+                    <div class="col form-group">
+                        <label asp-for="CustomerFirstName" class="control-label"></label>
+                        <input asp-for="CustomerFirstName" class="form-control" />
+                        <span asp-validation-for="CustomerFirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col form-group">
+                        <label asp-for="CustomerLastName" class="control-label"></label>
+                        <input asp-for="CustomerLastName" class="form-control" />
+                        <span asp-validation-for="CustomerLastName" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="col form-group">
-                    <label asp-for="CustomerLastName" class="control-label"></label>
-                    <input asp-for="CustomerLastName" class="form-control" />
-                    <span asp-validation-for="CustomerLastName" class="text-danger"></span>
+                <div class="row">
+                    <div class="col form-group">
+                        <label asp-for="CustomerEmailAddress" class="control-label"></label>
+                        <input type="email" asp-for="CustomerEmailAddress" class="form-control" />
+                        <span asp-validation-for="CustomerEmailAddress" class="text-danger"></span>
+                    </div>
+                    <div class="col form-group">
+                        <label asp-for="CustomerPhoneNumber" class="control-label"></label>
+                        <input type="tel" asp-for="CustomerPhoneNumber" class="form-control" />
+                        <span asp-validation-for="CustomerPhoneNumber" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col form-group">
-                    <label asp-for="CustomerEmailAddress" class="control-label"></label>
-                    <input type="email" asp-for="CustomerEmailAddress" class="form-control" />
-                    <span asp-validation-for="CustomerEmailAddress" class="text-danger"></span>
+                <div class="row form-group">
+                    <label asp-for="CustomerAddress" class="control-label"></label>
+                    <input type="text" asp-for="CustomerAddress" class="form-control" />
+                    <span asp-validation-for="CustomerAddress" class="text-danger"></span>
                 </div>
-                <div class="col form-group">
-                    <label asp-for="CustomerPhoneNumber" class="control-label"></label>
-                    <input type="tel" asp-for="CustomerPhoneNumber" class="form-control" />
-                    <span asp-validation-for="CustomerPhoneNumber" class="text-danger"></span>
+                <div class="row">
+                    <div class="form-group mt-4">
+                        <a class="btn btn-outline-danger" asp-controller="Cart" asp-action="Index">Back to Cart</a>
+                        <input type="submit" value="Place order" class="btn btn-primary float-end" />
+                    </div>
                 </div>
-            </div>
-            <div class="row form-group">
-                <label asp-for="CustomerAddress" class="control-label"></label>
-                <input type="text" asp-for="CustomerAddress" class="form-control" />
-                <span asp-validation-for="CustomerAddress" class="text-danger"></span>
-            </div>
-            <div class="row">
-                <div class="form-group mt-4">
-                    <a class="btn btn-outline-danger" asp-controller="Cart" asp-action="Index">Back to Cart</a>
-                    <input type="submit" value="Place order" class="btn btn-primary float-end" />
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+}
 
 @section Scripts {
     @{
