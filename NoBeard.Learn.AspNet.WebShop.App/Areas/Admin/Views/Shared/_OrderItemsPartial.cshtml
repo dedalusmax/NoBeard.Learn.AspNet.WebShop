@@ -1,0 +1,39 @@
+﻿@model IEnumerable<OrderItem>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Product
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Total
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    <a asp-controller="OrderItems" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="OrderItems" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="OrderItems" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

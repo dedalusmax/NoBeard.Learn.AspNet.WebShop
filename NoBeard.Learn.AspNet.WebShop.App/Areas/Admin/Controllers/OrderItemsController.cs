@@ -19,9 +19,23 @@ public class OrderItemsController : Controller
     }
 
     // GET: ORDERITEMS
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index(int orderId)    
     {
-        return View(await _context.OrderItems.ToListAsync());
+        var result =
+            from items in _context.OrderItems
+            join products in _context.Products on items.ProductId equals products.Id
+            where items.OrderId == orderId
+            select new OrderItem
+            {
+                Id = items.Id,
+                OrderId = items.OrderId,
+                ProductId = items.ProductId,
+                Quantity = items.Quantity,
+                Total = items.Total,
+                ProductName = products.Name
+            };
+
+        return View(result);
     }
 
     // GET: ORDERITEMS/Details/5
@@ -39,28 +53,6 @@ public class OrderItemsController : Controller
             return NotFound();
         }
 
-        return View(orderitem);
-    }
-
-    // GET: ORDERITEMS/Create
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    // POST: ORDERITEMS/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,OrderId,ProductId,Quantity,Price,Total")] OrderItem orderitem)
-    {
-        if (ModelState.IsValid)
-        {
-            _context.Add(orderitem);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
         return View(orderitem);
     }
 

@@ -1,4 +1,4 @@
-@model NoBeard.Learn.AspNet.WebShop.App.Models.Order
+@model Order
 
 @{
     ViewData["Title"] = "Details";
@@ -68,38 +68,7 @@
         </dd>
     </dl>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Product
-                </th>
-                <th>
-                    Quantity
-                </th>
-                <th>
-                    Total
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Items)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ProductName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Total)
-                    </td>
-                </tr>
-            }
-        </tbody>
-
-    </table>
+    <partial name="_OrderItemsPartial" for="@Model.Items" />
 
 </div>
 <div>
