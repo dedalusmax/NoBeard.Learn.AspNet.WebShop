@@ -1,4 +1,7 @@
-﻿namespace NoBeard.Learn.AspNet.WebShop.App.Extensions;
+﻿using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+
+namespace NoBeard.Learn.AspNet.WebShop.App.Extensions;
 
 public static class WebApplicationExtensions
 {
@@ -16,6 +19,17 @@ public static class WebApplicationExtensions
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+
+        var culture = new CultureInfo("hr-HR");
+        culture.NumberFormat.NumberDecimalSeparator = ".";
+        culture.NumberFormat.CurrencyDecimalSeparator = ".";       
+
+        app.UseRequestLocalization(new RequestLocalizationOptions()
+        {
+            DefaultRequestCulture = new RequestCulture(culture),
+            SupportedCultures = [culture],
+            SupportedUICultures = [culture]
+        });
 
         app.UseHttpsRedirection();
         app.UseRouting();
