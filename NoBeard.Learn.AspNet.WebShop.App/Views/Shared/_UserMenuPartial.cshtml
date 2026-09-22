@@ -1,10 +1,24 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using NoBeard.Learn.AspNet.WebShop.App.Extensions
 
 @inject SignInManager<ApplicationUser> SignInManager
 
+@{
+    var cart = this.Context.Session.GetCart();
+}
+
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
+    <li class="nav-item position-relative">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
+            Cart
+            @if (cart != null && cart.Items.Count > 0)
+            {
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    @cart.Items.Count
+                    <span class="visually-hidden">items</span>
+                </span>
+            }
+            </a>
     </li>
 }

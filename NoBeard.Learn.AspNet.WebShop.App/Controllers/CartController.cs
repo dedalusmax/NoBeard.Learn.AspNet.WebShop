@@ -12,7 +12,7 @@ public class CartController(ApplicationDbContext context) : BaseController(conte
     public IActionResult Index()
     {
         var cart = HttpContext.Session.GetCart();
-
+        
         return View(cart);
     }
 
