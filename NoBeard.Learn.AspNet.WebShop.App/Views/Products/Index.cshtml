@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Product>
+﻿@using NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Models
+
+@model IEnumerable<ProductViewModel>
 
 @{
     ViewData["Title"] = "Product list";
@@ -30,6 +32,14 @@
     {
         <div class="col-md-4 mb-3">
             <div class="card h-100">
+                @if (!string.IsNullOrEmpty(item.FileContentBase64))
+                {
+                    <img src="data:image;base64,@item.FileContentBase64" class="card-img-top" alt="@item.FileName" style="max-height: 200px; object-fit: cover;">
+                }
+                else
+                {
+                    <img src="favicon.ico" class="card-img-top" alt="No image available">
+                }
                 <div class="card-body">
                     <h5 class="card-title">@item.Name</h5>
                     <p class="card-text">@item.Description</p>
