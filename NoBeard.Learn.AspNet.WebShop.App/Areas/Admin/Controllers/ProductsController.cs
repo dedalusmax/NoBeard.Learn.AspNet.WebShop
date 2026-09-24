@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NoBeard.Learn.AspNet.WebShop.App.Areas.Admin.Models;
 using NoBeard.Learn.AspNet.WebShop.App.Data;
 using NoBeard.Learn.AspNet.WebShop.App.Models;
 
@@ -45,7 +46,17 @@ public class ProductsController : Controller
             return NotFound();
         }
 
-        return View(product);
+        var viewModel = new ProductViewModel
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            Description = product.Description,
+            FileName = product.FileName,
+            FileContentBase64 = product.FileContent != null ? Convert.ToBase64String(product.FileContent) : null
+        };
+
+        return View(viewModel);
     }
 
     // GET: PRODUCTS/Create
