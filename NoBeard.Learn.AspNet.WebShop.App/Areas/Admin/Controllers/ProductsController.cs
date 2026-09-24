@@ -94,7 +94,7 @@ public class ProductsController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,Name,Price,Description,Categories,OrderItems")] Product product)
+    public async Task<IActionResult> Edit(int? id, IFormFile? file, [Bind("Id,Name,Price,Description")] Product product)
     {
         if (id != product.Id)
         {
@@ -108,6 +108,15 @@ public class ProductsController : Controller
         {
             try
             {
+                if (file != null && file.Length > 0)
+                {
+                    using var memoryStream = new MemoryStream();
+                    await file.CopyToAsync(memoryStream);
+
+                    product.FileContent = memoryStream.ToArray();
+                    product.FileName = file.FileName;
+                }
+
                 _context.Update(product);
                 await _context.SaveChangesAsync();
             }
