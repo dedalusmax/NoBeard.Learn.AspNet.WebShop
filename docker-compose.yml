@@ -1,0 +1,13 @@
+services:
+  nobeard.learn.aspnet.webshop.app:
+    container_name: app
+    image: ${DOCKER_REGISTRY-}nobeardlearnaspnetwebshopapp
+    build:
+      context: .
+      dockerfile: NoBeard.Learn.AspNet.WebShop.App/Dockerfile
+    depends_on:
+      - sqlserver
+  sqlserver:
+    container_name: sql
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    
