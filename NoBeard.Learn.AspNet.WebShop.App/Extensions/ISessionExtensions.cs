@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using NoBeard.Learn.AspNet.WebShop.App.Models;
+﻿using NoBeard.Learn.AspNet.WebShop.App.Models;
+using System.Text.Json;
 
 namespace NoBeard.Learn.AspNet.WebShop.App.Extensions;
 
@@ -9,7 +9,7 @@ public static class ISessionExtensions
 
     public static void SetCart(this ISession session, Cart cart)
     {
-        var sessionData = JsonConvert.SerializeObject(cart);
+        var sessionData = JsonSerializer.Serialize(cart);
         session.SetString(CART_SESSION_KEY, sessionData);
     }
 
@@ -22,7 +22,7 @@ public static class ISessionExtensions
         }
         else
         {
-            return JsonConvert.DeserializeObject<Cart>(sessionData)!;
+            return JsonSerializer.Deserialize<Cart>(sessionData)!;
         }
     }
 

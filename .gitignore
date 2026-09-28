@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/NoBeard.Learn.AspNet.WebShop.App/appsettings.Production.json
