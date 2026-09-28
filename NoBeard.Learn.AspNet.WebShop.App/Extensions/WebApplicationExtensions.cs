@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
+using NoBeard.Learn.AspNet.WebShop.App.Data;
 using System.Globalization;
 
 namespace NoBeard.Learn.AspNet.WebShop.App.Extensions;
@@ -54,6 +56,10 @@ public static class WebApplicationExtensions
 
         app.MapRazorPages()
            .WithStaticAssets();
+
+        using var scope = app.Services.CreateScope();
+        ApplicationDbContext dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.Migrate();
 
         return app;
     }
